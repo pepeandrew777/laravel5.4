@@ -51,34 +51,37 @@ class CorrespondenciaInternaController extends Controller
      public function store(Request $request)
     {
 
-          $correspondenciaInterna = new CorrespondenciaInterna;
+          $correspondenciaInterna = new CorrespondenciaInterna;                         
+          if(!$request->input('n_nro') || !$request->input('n_ano') || !$request->input('n_mes') )
+                                     
+                   /*
+                                       || !$request->input('n_id_usuario') 
 
-         /* 
-          if(!$request->input('n_nro') || !$request->input('n_ano') || !$request->input('n_mes') 
-                                    || !$request->input('n_id_usuario') 
-                                    || !$request->input('n_id_tipo_ta_tipo_destinatario') 
-                                    || !$request->input('n_ger_origen') 
-                                    || !$request->input('n_ger_destino') 
-                                    || !$request->input('n_gerencia_doc_fis')
-                                    || !$request->input('n_id_emp_der')
-                                    || !$request->input('n_cod_suc')
-                                    || !$request->input('d_fecha_ingreso')
-                                    || !$request->input('d_fecha_finalizacion')
-                                    || !$request->input('d_fecha_eliminacion')
-                                    || !$request->input('n_eliminado')
-                                    || !$request->input('c_referencia')
-                                    || !$request->input('c_cod_cite')
-                                    || !$request->input('c_estado')
-                                    || !$request->input('n_cod_trab')
-                                    || !$request->input('n_visto')
-                                    || !$request->input('n_urgente')
-                                    || !$request->input('n_corres_externa')
-                                    || !$request->input('n_adjuntos'))
+                                       || !$request->input('n_id_tipo_ta_tipo_destinatario') 
+                                       || !$request->input('n_ger_origen') 
+                                       || !$request->input('n_ger_destino') 
+                                       || !$request->input('n_gerencia_doc_fis')
+                                       || !$request->input('n_id_emp_der')
+                                       || !$request->input('n_cod_suc')
+                                       || !$request->input('d_fecha_ingreso')
+                                       || !$request->input('t_hora_ingreso')
+                                       || !$request->input('d_fecha_finalizacion')
+                                       || !$request->input('d_fecha_eliminacion')
+                                       || !$request->input('n_eliminado')
+                                       || !$request->input('c_referencia')
+                                       || !$request->input('c_cod_cite')
+                                       || !$request->input('c_estado')
+                                       || !$request->input('n_cod_trab')
+                                       || !$request->input('n_visto')
+                                       || !$request->input('n_urgente')
+                                       || !$request->input('n_corres_externa')
+                                       || !$request->input('n_adjuntos')) */
         {
          return response()->json(['mensaje'=>'No se pudieron procesar los valores','codigo'=>422],422);
         }  
+        
         CorrespondenciaInterna::create($request->all());
-        return response()->json(['mensaje'=>'Correspondencia Interna creada'],201);   */
-        return 'hola amigos';
+        return response()->json(['mensaje'=>'Correspondencia Interna creada'],201);   
+        //return 'hola amigos';
     }
 }

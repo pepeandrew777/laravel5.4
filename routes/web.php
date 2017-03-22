@@ -17,6 +17,7 @@ Route::get('/', function () {
 //Fecha: 08/02/2016
 //Creando las rutas de las tablas parametricas que se van a utilizar en la correspondencia interna
 //esto es una prueba
+//Route::auth();
 Route::resource('sucursal','SucursalController',['only'=>['index','show']]);
 Route::resource('tipodestinatario','TipoDestinatarioController',['only'=>['index','show']]);
 Route::resource('tipocorrespondencia','TipoCorrespondenciaController',['only'=>['index','show']]);
