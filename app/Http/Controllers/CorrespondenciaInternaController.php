@@ -51,34 +51,60 @@ class CorrespondenciaInternaController extends Controller
      public function store(Request $request)
     {
 
-          $correspondenciaInterna = new CorrespondenciaInterna;                         
-          if(!$request->input('n_nro') || !$request->input('n_ano') || !$request->input('n_mes') )
-                                     
-                   /*
-                                       || !$request->input('n_id_usuario') 
+          $correspondenciaInterna = new CorrespondenciaInterna;                     
+          //Verificando que se estan enviando todos los valores y que son obligatorios
+          if(!$request->input('n_nro') || !$request->input('n_ano') || !$request->input('n_mes') || !$request->input('n_id_usuario'))                      
+          {
+             return response()->json(['mensaje'=>'No se pudieron procesar los valores de: numero, gestion, mes o usuario','codigo'=>422],422);
+          }
+          if(!$request->input('n_id_tipo_ta_tipo_destinatario') || !$request->input('n_ger_origen') || !$request->input('n_ger_destino') || !$request->input('n_gerencia_doc_fis'))
+          {
+            return response()->json(['mensaje'=>'No se pudieron procesar los valores de: tipo de destinatario, gerencia origen, gerencia destino o gerencia fis','codigo'=>422],422);
+          }
+          if(!$request->input('n_id_emp_der') || !$request->input('n_cod_suc') || !$request->input('d_fecha_ingreso') || !$request->input('t_hora_ingreso'))
+          {
+           return response()->json(['mensaje'=>'No se pudieron procesar los valores de: empleado, sucursal, fecha de ingreso o hora de ingreso.','codigo'=>422],422); 
+          } 
+          if(!$request->input('c_referencia') || !$request->input('n_cod_trab'))
+          {
+            return response()->json(['mensaje'=>'No se pudieron procesar los valores: asunto y trabajo','codigo'=>422],422); 
+          }
+          // 
+          if(!$request->input('c_cod_cite'))
+          {
+           $request->input('c_cod_cite') = null;
+          }  
 
-                                       || !$request->input('n_id_tipo_ta_tipo_destinatario') 
-                                       || !$request->input('n_ger_origen') 
-                                       || !$request->input('n_ger_destino') 
-                                       || !$request->input('n_gerencia_doc_fis')
-                                       || !$request->input('n_id_emp_der')
-                                       || !$request->input('n_cod_suc')
-                                       || !$request->input('d_fecha_ingreso')
-                                       || !$request->input('t_hora_ingreso')
-                                       || !$request->input('d_fecha_finalizacion')
-                                       || !$request->input('d_fecha_eliminacion')
-                                       || !$request->input('n_eliminado')
-                                       || !$request->input('c_referencia')
-                                       || !$request->input('c_cod_cite')
-                                       || !$request->input('c_estado')
-                                       || !$request->input('n_cod_trab')
-                                       || !$request->input('n_visto')
-                                       || !$request->input('n_urgente')
-                                       || !$request->input('n_corres_externa')
-                                       || !$request->input('n_adjuntos')) */
-        {
-         return response()->json(['mensaje'=>'No se pudieron procesar los valores','codigo'=>422],422);
-        }  
+          //inicio: estas condiciones deben ser modificadas
+          if($request->input('n_cod_trab')==10)
+          {
+            $request->input('n_urgente') = 1;
+          } 
+          else
+          {
+             $request->input('n_urgente') = 0;
+          } 
+          //estos datos son modificables de acuerdo a lo que se envia o registra de adjuntos y correspondencia externa
+          $request->input('n_corres_externa') = 0;
+          $request->input('n_adjuntos') = 0;
+          // fin: estas condiciones deben ser modificadas
+                                        
+                                        
+          $request->input('d_fecha_finalizacion') = null;
+          $request->input('d_fecha_eliminacion') = null;                                       
+          $request->input('n_eliminado') = 0;
+          $request->input('n_visto') = 0;
+          $request->input('c_estado') = 'P';
+          //alguna vez puede ser nullo
+                                         
+                                           
+                                       
+
+                                       
+                                      
+        
+        
+          
         
         CorrespondenciaInterna::create($request->all());
         return response()->json(['mensaje'=>'Correspondencia Interna creada'],201);   
