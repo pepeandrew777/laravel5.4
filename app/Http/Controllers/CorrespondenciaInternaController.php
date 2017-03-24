@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use League\Flysystem\Exception;
 
+//Estos son los datos correctos
 class CorrespondenciaInternaController extends Controller
 {
 
@@ -46,10 +47,8 @@ class CorrespondenciaInternaController extends Controller
     Log::debug('Error al tratar de ver la correspondencia interna: ' . $e);
     }
     } */
-
     public function store(Request $request)
     {
-
         $correspondenciaInterna = new CorrespondenciaInterna;
         //Verificando que se estan enviando todos los valores y que son obligatorios
         if (!$request->input('n_nro') || !$request->input('n_ano') || !$request->input('n_mes') || !$request->input('n_id_usuario')) {
@@ -111,11 +110,13 @@ class CorrespondenciaInternaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
-        $metodo = $request->method();
+
+        $bandera                = false;
+        $correspondenciaInterna = correspondenciaInterna::find($id);
         //Datos que pueden ser modificados
-        log::debug($request->input('n_id_tipo_ta_tipo_destinatario'));
         $nTipoDestinatario     = $request->input('n_id_tipo_ta_tipo_destinatario');
         $nGerenciaOrigen       = $request->input('n_ger_origen');
         $nGerenciaDestino      = $request->input('n_ger_destino');
@@ -129,69 +130,72 @@ class CorrespondenciaInternaController extends Controller
         $nAdjuntos             = $request->input('n_adjuntos');
 
         //Obteniendo los datos
-        $correspondenciaInterna = CorrespondenciaInterna::find($id);
-        log::debug($request->input('n_ano'));
 
         if (!$correspondenciaInterna) {
             return response()->json(['mensaje' => 'No se encuentra los datos de la correspondencia interna', 'codigo' => 404], 404);
         }
 
-        $bandera = false;
-
-        if ($metodo === 'PATCH') {
-            if ($nTipoDestinatario != null && $nTipoDestinatario != '') {
-                $CorrespondenciaInterna->n_id_tipo_ta_tipo_destinatario = $nTipoDestinatario;
-                $bandera                                                = true;
-                log::debug('holas montavacas222');
-            }
-            if ($nGerenciaOrigen != null && $nGerenciaOrigen != '') {
-                $correspondenciaInterna->n_ger_origen = $nGerenciaOrigen;
-                $bandera                              = true;
-            }
-            if ($nGerenciaDestino != null && $nGerenciaDestino != '') {
-                $correspondenciaInterna->n_ger_destino = $nGerenciaDestino;
-                $bandera                               = true;
-            }
-            if ($nGerenciaDocumentoFis != null && $nGerenciaDocumentoFis != '') {
-                $correspondenciaInterna->n_gerencia_doc_fis = $nGerenciaDocumentoFis;
-                $bandera                                    = true;
-            }
-            if ($nIdEmpleado != null && $nIdEmpleado != '') {
-                $correspondenciaInterna->n_id_emp_der = $nIdEmpleado;
-                $bandera                              = true;
-            }
-            if ($cReferencia != null && $cReferencia != '') {
-                $correspondenciaInterna->c_referencia = $cReferencia;
-                $bandera                              = true;
-            }
-            if ($cCite != null && $cCite != '') {
-                $correspondenciaInterna->c_cod_cite = $cCite;
-                $bandera                            = true;
-            }
-            if ($nCodTrabajo != null && $nCodTrabajo != '') {
-                $correspondenciaInterna->n_cod_trab = $nCodTrabajo;
-                $bandera                            = true;
-            }
-            if ($nUrgente != null && $nUrgente != '') {
-                $correspondenciaInterna->n_urgente = $nUrgente;
-                $bandera                           = true;
-            }
-            if ($nCorresExterna != null && $nCorresExterna != '') {
-                $correspondenciaInterna->n_corres_externa = $nCorresExterna;
-                $bandera                                  = true;
-            }
-            if ($nAdjuntos != null && $nAdjuntos != '') {
-                $correspondenciaInterna->n_adjuntos = $nAdjuntos;
-                $bandera                            = true;
-            }
-            if ($bandera) {
-                $correspondenciaInterna->save();
-                return response()->json(['mensaje' => 'Datos de correspondencia interna editados'], 200);
-            }
-
-            return response()->json(['mensaje' => 'No se pudieron editar los valores de corrrespondencia interna', 'codigo' => 422], 422);
+        if ($nTipoDestinatario != null && $nTipoDestinatario != '') {
+            $correspondenciaInterna->n_id_tipo_ta_tipo_destinatario = $nTipoDestinatario;
+            $bandera                                                = true;
+            log::debug('holas montavacas222');
+        }
+        if ($nGerenciaOrigen != null && $nGerenciaOrigen != '') {
+            $correspondenciaInterna->n_ger_origen = $nGerenciaOrigen;
+            $bandera                              = true;
+        }
+        if ($nGerenciaDestino != null && $nGerenciaDestino != '') {
+            $correspondenciaInterna->n_ger_destino = $nGerenciaDestino;
+            $bandera                               = true;
+        }
+        if ($nGerenciaDocumentoFis != null && $nGerenciaDocumentoFis != '') {
+            $correspondenciaInterna->n_gerencia_doc_fis = $nGerenciaDocumentoFis;
+            $bandera                                    = true;
+        }
+        if ($nIdEmpleado != null && $nIdEmpleado != '') {
+            $correspondenciaInterna->n_id_emp_der = $nIdEmpleado;
+            $bandera                              = true;
+        }
+        if ($cReferencia != null && $cReferencia != '') {
+            $correspondenciaInterna->c_referencia = $cReferencia;
+            $bandera                              = true;
+        }
+        if ($cCite != null && $cCite != '') {
+            $correspondenciaInterna->c_cod_cite = $cCite;
+            $bandera                            = true;
+        }
+        if ($nCodTrabajo != null && $nCodTrabajo != '') {
+            $correspondenciaInterna->n_cod_trab = $nCodTrabajo;
+            $bandera                            = true;
+        }
+        if ($nUrgente != null && $nUrgente != '') {
+            $correspondenciaInterna->n_urgente = $nUrgente;
+            $bandera                           = true;
+        }
+        if ($nCorresExterna != null && $nCorresExterna != '') {
+            $correspondenciaInterna->n_corres_externa = $nCorresExterna;
+            $bandera                                  = true;
+        }
+        if ($nAdjuntos != null && $nAdjuntos != '') {
+            $correspondenciaInterna->n_adjuntos = $nAdjuntos;
+            $bandera                            = true;
+        }
+        if ($bandera) {
+            $correspondenciaInterna->save();
+            return response()->json(['mensaje' => 'Datos de correspondencia interna editados'], 200);
         }
 
+        return response()->json(['mensaje' => 'No se pudieron editar los valores de corrrespondencia interna', 'codigo' => 422], 422);
+
     }
+    /*
+public function update(Request $request, $id)
+{
+$correspondenciaInterna = CorrespondenciaInterna::find($id);
+$dato = $request->n_id_tipo_ta_tipo_destinatario;
+$correspondenciaInterna->n_id_tipo_ta_tipo_destinatario = $dato;
+$correspondenciaInterna->save();
+
+} */
 
 }
