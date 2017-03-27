@@ -64,8 +64,8 @@ return [
     |
      */
 
-    //'timezone'        => 'UTC',
-    'timezone'        => 'America/La_Paz',
+    'timezone'        => 'UTC',
+    //'timezone'        => 'America/La_Paz',
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -77,7 +77,7 @@ return [
     |
      */
 
-    'locale'          => 'es',
+    'locale'          => 'en',
 
     /*
     |--------------------------------------------------------------------------

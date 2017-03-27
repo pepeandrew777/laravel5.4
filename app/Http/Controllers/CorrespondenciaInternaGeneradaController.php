@@ -48,18 +48,23 @@ class CorrespondenciaInternaGeneradaController extends Controller
     {
         $correspondenciaInterna = new CorrespondenciaInternaGenerada;
         //Verificando que se estan enviando todos los valores y que son obligatorios
-        if (!$request->input('n_nro') || !$request->input('n_ano') || !$request->input('n_mes') || !$request->input('n_id_usuario')) {
-            return response()->json(['mensaje' => 'No se pudieron procesar los valores de: numero, gestion, mes o usuario', 'codigo' => 422], 422);
+        if (!$request->input('n_nro') || !$request->input('n_ano') || !$request->input('n_mes') || !$request->input('n_guardado')) {
+            return response()->json(['mensaje' => 'No se pudieron procesar los valores de: numero, gestion, mes o bandera de guardado', 'codigo' => 422], 422);
         }
-        if (!$request->input('n_guardado') || !$request->input('d_fecha_registro') || !$request->input('t_hora_registro')) {
-            return response()->json(['mensaje' => 'No se pudieron procesar los valores de: bandera de guardado,fecha de registro o hora de registro', 'codigo' => 422], 422);
+        if (!$request->input('n_id_usuario') || !$request->input('d_fecha_registro') || !$request->input('t_hora_registro')) {
+            return response()->json(['mensaje' => 'No se pudieron procesar los valores de: id de usuario,fecha de registro o hora de registro', 'codigo' => 422], 422);
         }
-        if (!$request->input('id_ta_corres_interna') || !$request->input('n_id_emp_der') || !$request->input('n_ger_origen') || !$request->input('n_ger_destino')) {
-            return response()->json(['mensaje' => 'No se pudieron procesar los valores de: id corres,id de empleado, gerencia origem o gerencia destino.', 'codigo' => 422], 422);
+        //d_fecha_eliminacion debe tomar  valores nulos, esto para controlar la eliminacion logica del sistema
+        if (!$request->input('d_fecha_ingreso') || !$request->input('id_ta_corres_interna') || !$request->input('n_id_emp_der')) {
+            return response()->json(['mensaje' => 'No se pudieron procesar los valores de: fecha de ingreso,id de empleado,id corres interna y empleado.', 'codigo' => 422], 422);
         }
-        if (!$request->input('c_referencia') || !$request->input('n_cod_trab')) {
-            return response()->json(['mensaje' => 'No se pudieron procesar los valores: asunto y trabajo', 'codigo' => 422], 422);
+        if (!$request->input('n_ger_origen') || !$request->input('n_ger_destino') || !$request->input('c_estado')) {
+            return response()->json(['mensaje' => 'No se pudieron procesar los valores de: id de gerencia origen, destino y el estado ', 'codigo' => 422], 422);
         }
+        if (!$request->input('n_destinatario_principal') || !$request->input('n_id_tipo_ta_tipo_destinatario') || !$request->input('n_cod_suc')) {
+            return response()->json(['mensaje' => 'No se pudieron procesar los valores de: bandera de destinario principal, id de tipo de destinatario y id de sucursal', 'codigo' => 422], 422);
+        }
+
         //EE
         if (!$request->input('c_cod_cite')) {
             // $request->input('c_cod_cite') = null;
