@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,7 +9,6 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -27,5 +25,4 @@ Route::resource('gerencia', 'GerenciaController', ['only' => ['index', 'show']])
 Route::resource('empleado', 'EmpleadoController', ['only' => ['index', 'show']]);
 Route::resource('trabajo', 'TipoTrabajoController', ['only' => ['index', 'show']]);
 Route::resource('correspondencia', 'CorrespondenciaInternaController', ['only' => ['index', 'show', 'store', 'update']]);
-
-Route::resource('correspondenciagenerada', 'CorrespondenciaInternaGeneradaController', ['only' => ['index', 'show', 'store']]);
+Route::resource('correspondenciagenerada', 'CorrespondenciaInternaGeneradaController', ['only' => ['index', 'show', 'store', 'update']]);
